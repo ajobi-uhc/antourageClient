@@ -1,0 +1,14 @@
+{
+  "discord": {
+    "clientId": "934624746518229074",
+    "guildId": "934592517435949136",
+    "token": "<DISCORD_BOT_TOKEN>" // redacted for security. Never reveal your access token!
+  },
+  "postgres": {
+    "host": "127.0.0.1", // used for localhost
+    "user": "<POSTGRES_USER>",
+    "password": "", // postgres user would have password on live server
+    "database": "<POSTGRES_DATABASE>",
+    "port": 3001 // for localhost server config
+  }
+}

@@ -1,0 +1,250 @@
+{
+    "version": "0.1.0",
+    "name": "antourage",
+    "instructions": [
+      {
+        "name": "initialize",
+        "accounts": [
+          {
+            "name": "admin",
+            "isMut": true,
+            "isSigner": true
+          },
+          {
+            "name": "counter",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "systemProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "updateCounterAuthority",
+        "accounts": [
+          {
+            "name": "authority",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "newAuth",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "counter",
+            "isMut": true,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "newBaseUri",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "newCreator",
+            "type": {
+              "option": "publicKey"
+            }
+          }
+        ]
+      },
+      {
+        "name": "updateCounterLimit",
+        "accounts": [
+          {
+            "name": "authority",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "counter",
+            "isMut": true,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "newLimit",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "buyBall",
+        "accounts": [
+          {
+            "name": "programPdaSigner",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "user",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "redLionTokenAccount",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "redLionMintAccount",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "redLionMetadataAccount",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "golfTokenAccount",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "golfMintAccount",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "golfMasterEdition",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "golfMetadataAccount",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "counter",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "tokenMetadataProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "systemProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "counterBump",
+            "type": "u8"
+          },
+          {
+            "name": "programSignerBump",
+            "type": "u8"
+          }
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Counter",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "limit",
+              "type": "u64"
+            },
+            {
+              "name": "currentCount",
+              "type": "u64"
+            },
+            {
+              "name": "authority",
+              "type": "publicKey"
+            },
+            {
+              "name": "baseUri",
+              "type": "string"
+            },
+            {
+              "name": "creator",
+              "type": "publicKey"
+            }
+          ]
+        }
+      }
+    ],
+    "errors": [
+      {
+        "code": 6000,
+        "name": "InvalidPack",
+        "msg": "Invalid aurahma pack chosen"
+      },
+      {
+        "code": 6001,
+        "name": "OutOfL1",
+        "msg": "Out of Pack 1 aurahmas"
+      },
+      {
+        "code": 6002,
+        "name": "OutOfL2",
+        "msg": "Out of Pack 2 aurahmas"
+      },
+      {
+        "code": 6003,
+        "name": "OutOfL3",
+        "msg": "Out of Pack 3 aurahmas"
+      },
+      {
+        "code": 6004,
+        "name": "NotInitialized",
+        "msg": "Metadata account not Initialized"
+      },
+      {
+        "code": 6005,
+        "name": "WrongCreators",
+        "msg": "Wrong creators or already signed for program signer"
+      },
+      {
+        "code": 6006,
+        "name": "WrongOwner",
+        "msg": "Wrong owners"
+      },
+      {
+        "code": 6007,
+        "name": "InsufficientFunds",
+        "msg": "Insufficient funds in a token account"
+      },
+      {
+        "code": 6008,
+        "name": "GenericError",
+        "msg": "Something went wrong with token accounts"
+      }
+    ],
+    "metadata": {
+      "address": "HkTeUJjPM18CGdUXBEDJusi9Wfnk2AwC5AD7PwVheQCe"
+    }
+  }
