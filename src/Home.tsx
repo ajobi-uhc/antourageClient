@@ -1,9 +1,10 @@
 //import { useEffect, useState } from "react";
-import { useState }  from 'react';
+import { useEffect, useState }  from 'react';
 import styled from "styled-components";
 import { Button, CircularProgress, Snackbar, makeStyles } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-
+import { getGolfBalls } from './solana/functions/getGolf';
+import { signArbitraryMessage, shortenAddress } from './solana/utils/utils';
 import * as anchor from "@project-serum/anchor";
 //import bs58 from 'bs58'
 
@@ -12,10 +13,11 @@ import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
 
 import {
   fullSend,
-  shortenAddress,
-  signArbitraryMessage
-} from "./solana";
+} from "./solana/functions/mintGolf";
+import NftGrid from './components/NFTgrid';
+import { playGolf } from './solana/functions/playGolf';
 
+require('dotenv').config();
 
 const ConnectButton = styled(WalletDialogButton)``;
 const Container = styled.div``;
@@ -30,12 +32,15 @@ export interface HomeProps {
 const Home = (props: HomeProps) => {
   const [isRegister, setRegister] = useState(false); // true when user press REGISTER button
   const [isExists, setExists] = useState(false); // true when wallet already exists within database
+  const [golfBalls, setGolfBalls] = useState<any>()
 
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
     severity: undefined,
   });
+
+
 
   const wallet = useAnchorWallet();
   const connection = new anchor.web3.Connection(
@@ -46,10 +51,57 @@ const Home = (props: HomeProps) => {
   const onMint = async () => {
     if(wallet){
       let sig = await fullSend(connection, wallet as anchor.Wallet);
+
       console.log(sig)
 
     }
   }
+
+  const onPlay = async (mint: anchor.web3.PublicKey) => {
+    if (!wallet) {
+      return;
+    }
+    console.log("I am passing wallet", wallet);
+    console.log("I am passing mint", mint)
+    await playGolf(wallet as anchor.Wallet , mint)
+    
+  }
+
+  const onSelect = async () => {
+    let currentGolfBall = golfBalls;
+    // let triesLeft = await triesGolf(currentGolfBall.mint);
+    console.log("current",currentGolfBall)
+    //then run play game fetch request and ask user to sign
+  }
+
+
+  const getGolf = async () => {
+    if (!wallet) {
+      return;
+    }
+  
+      getGolfBalls(connection, wallet as anchor.Wallet).then((allMints: any) => {
+        if (allMints.length === 0) {
+          setAlertState({
+            open: true,
+            message: "You dont own any golf balls",
+            severity: "error",
+          });
+          
+          return <div> You dont own any golf balls </div>;
+        }
+        console.log("all mints",allMints)
+        setGolfBalls(allMints);
+
+      })
+
+      console.log("golf balls",golfBalls)
+      let numTries = await onSelect();
+      console.log("num tries",numTries)
+
+    
+  }
+
 
   const onRegister = async () => {
     try {
@@ -131,9 +183,37 @@ const Home = (props: HomeProps) => {
       setRegister(false);
     }
   }; // end of onRegister()
-  
 
   const classes = useStyles()
+
+  useEffect(() => {
+    if (!wallet) {
+      return;
+    }
+    try {
+      getGolfBalls(connection, wallet as anchor.Wallet).then((allMints: any) => {
+        if (allMints.length === 0) {
+          setAlertState({
+            open: true,
+            message: "You dont own any golf balls",
+            severity: "error",
+          });
+          return <div> You dont own any golf balls </div>;
+        }
+        
+        setGolfBalls(allMints);
+
+      });
+    } catch {
+      setAlertState({
+        open: true,
+        message: "Error loading NFT's please refresh page",
+        severity: "error",
+      });
+      return;
+    }
+  }, [wallet]);
+
 
   return (
     <main className={classes.cover}>
@@ -149,14 +229,17 @@ const Home = (props: HomeProps) => {
         <br></br>
 
         <div className={classes.words}>
-          <h1>Arrivant Discord Connection</h1>
-          <br></br>
-          <h3>Link a Solana wallet to your Discord ID.</h3>
+          <h1>Antourage Minigame</h1>
           <br></br>
         </div>
+        {golfBalls ? (
+          <NftGrid props = {golfBalls} wallet = {wallet} onPlay = {onPlay} />
+        ):(
+          <div> No balls </div>
+        )}
       <Container>
         {!wallet ? (
-          <ConnectButton className={classes.centerConnect}>connect wallet</ConnectButton>
+          <ConnectButton className={classes.centerConnect}>Connect wallet</ConnectButton>
         ) : (
           <>
 
@@ -176,9 +259,9 @@ const Home = (props: HomeProps) => {
           onClick = {onMint}
           >
             Click to mint golf ball
-
           </Button>
 
+          <Button onClick = {getGolf}> Get golf balls </Button>
           </>
         )}
       </Container>
