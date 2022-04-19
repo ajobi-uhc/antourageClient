@@ -1,0 +1,9 @@
+export { default as background } from './background.png';
+export { default as balls } from './balls.svg';
+export { default as buttonContainer } from './buttonContainer.svg';
+export { default as close } from './close.svg';
+export { default as golfBall } from './golfBall.svg';
+export { default as levels } from './levels.svg';
+export { default as lockedBall } from './lockedBall.svg';
+export { default as lockedLevel } from './lockedLevel.svg';
+export { default as play } from './play.svg';
