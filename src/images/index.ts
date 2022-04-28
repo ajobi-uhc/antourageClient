@@ -1,6 +1,8 @@
 export { default as background } from './background.png';
 export { default as balls } from './balls.svg';
+export { default as basketball } from './basketball.png';
 export { default as buttonContainer } from './buttonContainer.svg';
+export { default as checkMark } from './checkMark.svg';
 export { default as close } from './close.svg';
 export { default as golfBall } from './golfBall.svg';
 export { default as levels } from './levels.svg';
