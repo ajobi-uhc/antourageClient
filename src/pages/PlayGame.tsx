@@ -7,8 +7,10 @@ interface PlayGameProps {
   gameOptions: { ballType: number; levelType: number };
 }
 
-export const PlayGame = (props: PlayGameProps) => {
+export const PlayGame = ({ gameOptions }: PlayGameProps) => {
   const classes = useStyles();
+
+  const data = JSON.stringify(gameOptions);
 
   const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ export const PlayGame = (props: PlayGameProps) => {
       <div className={classes.contentWrapper}>
         <h1 className={classes.mainTitle}>Cool Golf</h1>
         <h2 className={classes.subTitle}>Minigame</h2>
-        <a href='https://dmytroskrypnyk.github.io/' rel='noopener noreferrer' target='_self'>
+        <a href={`https://dmytroskrypnyk.github.io?data=${data}`} rel='noopener noreferrer' target='_self'>
           <img className={classes.play} src={play} alt='play' />
         </a>
         <div className={classes.buttonWrapper}>

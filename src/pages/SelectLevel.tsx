@@ -1,50 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 
+import { levels } from './mockData';
 import { background, buttonContainer, close, lockedLevel } from '../images';
 
 interface SelectLevelProps {
+  currentId: number;
   setGameOptions: any;
 }
-
-const levels = [
-  {
-    id: 0,
-    isUnlocked: true,
-  },
-  {
-    id: 1,
-    isUnlocked: true,
-  },
-  {
-    id: 2,
-    isUnlocked: false,
-  },
-  {
-    id: 3,
-    isUnlocked: false,
-  },
-  {
-    id: 4,
-    isUnlocked: false,
-  },
-  {
-    id: 5,
-    isUnlocked: false,
-  },
-  {
-    id: 6,
-    isUnlocked: false,
-  },
-  {
-    id: 7,
-    isUnlocked: false,
-  },
-  {
-    id: 8,
-    isUnlocked: false,
-  },
-];
 
 export const SelectLevel = ({ setGameOptions }: SelectLevelProps) => {
   const classes = useStyles();
@@ -53,7 +16,6 @@ export const SelectLevel = ({ setGameOptions }: SelectLevelProps) => {
 
   const handleButton = (id: number) => {
     setGameOptions((prevSate: { ballType: number; levelType: number }) => ({ ...prevSate, levelType: id }));
-    navigate('/play-game');
   };
 
   return (

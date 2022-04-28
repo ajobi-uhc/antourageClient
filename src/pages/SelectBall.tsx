@@ -1,71 +1,26 @@
 import { makeStyles } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 
-import { background, close, golfBall, lockedBall } from '../images';
+import { balls } from './mockData';
+import { background, checkMark, close } from '../images';
 
 interface SelectBallProps {
+  currentId: number;
   setGameOptions: any;
 }
 
-const balls = [
-  {
-    isUnlocked: true,
-    id: 1,
-    src: golfBall,
-  },
-  {
-    isUnlocked: false,
-    id: 2,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 3,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 4,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 5,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 6,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 7,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 8,
-    src: lockedBall,
-  },
-  {
-    isUnlocked: false,
-    id: 9,
-    src: lockedBall,
-  },
-];
-
-export const SelectBall = ({ setGameOptions }: SelectBallProps) => {
+export const SelectBall = ({ currentId, setGameOptions }: SelectBallProps) => {
   const classes = useStyles();
 
   const navigate = useNavigate();
 
   const handleButton = (id: number, isUnlocked: boolean) => {
     if (isUnlocked) {
-      setGameOptions((prevSate: { ballType: number; levelType: number }) => ({ ...prevSate, ballType: id + 1 }));
-      navigate('/play-game');
+      setGameOptions((prevSate: { ballType: number; levelType: number }) => ({ ...prevSate, ballType: id }));
     }
   };
+
+  console.log('currentId', currentId);
 
   return (
     <div className={classes.mainWrapper}>
@@ -77,8 +32,11 @@ export const SelectBall = ({ setGameOptions }: SelectBallProps) => {
           <h2 className={classes.subTitle}>Balls</h2>
           <div className={classes.ballsWrapper}>
             {balls.map(({ id, isUnlocked, src }) => (
-              <button key={id} className={classes.levelButton} onClick={() => handleButton(id, isUnlocked)}>
+              <button key={id} className={classes.ballButton} onClick={() => handleButton(id, isUnlocked)}>
                 <img alt='ball' src={src} />
+                {currentId === id && (
+                  <img alt='current ball is selected' className={classes.checkMark} src={checkMark} />
+                )}
               </button>
             ))}
           </div>
@@ -145,14 +103,19 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
   },
 
-  levelButton: {
+  ballButton: {
     padding: 0,
     background: 'none',
     border: 'none',
     cursor: 'pointer',
     position: 'relative',
   },
-
+  checkMark: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
   levelText: {
     position: 'absolute',
     top: '50%',

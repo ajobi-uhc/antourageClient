@@ -111,8 +111,14 @@ function App() {
       <Routes>
         <Route path='/' element={<AppWithProvider />} />
         <Route path='play-game' element={<PlayGame gameOptions={gameOptions} />} />
-        <Route path='select-ball' element={<SelectBall setGameOptions={setGameOptions} />} />
-        <Route path='select-level' element={<SelectLevel setGameOptions={setGameOptions} />} />
+        <Route
+          path='select-ball'
+          element={<SelectBall currentId={gameOptions.ballType} setGameOptions={setGameOptions} />}
+        />
+        <Route
+          path='select-level'
+          element={<SelectLevel currentId={gameOptions.levelType} setGameOptions={setGameOptions} />}
+        />
       </Routes>
     </div>
   );
